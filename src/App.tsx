@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import udhayImage from './assets/udhay.jpeg';
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState('home');
@@ -84,11 +85,7 @@ export default function Portfolio() {
       {/* Hero Section */}
       <section id="home" className={`section hero ${loaded ? 'fade-in' : ''}`}>
         <div className="hero-content">
-          <img 
-            src="src\assets\udhay.jpeg" // Replace with your photo path
-            alt="Udhayakumar"
-            className="profile-photo"
-          />
+        <img src={udhayImage} alt="Udhayakumar" className="profile-photo"/>
           <h1 style={{ color: colors.text }}>Udhayakumar Ravichandran</h1>
           <h2 style={{ color: colors.secondary }}>HR Analytics Enthusiast</h2>
           <p className="location" style={{ color: colors.text }}>Madurai, Tamil Nadu, India</p>
