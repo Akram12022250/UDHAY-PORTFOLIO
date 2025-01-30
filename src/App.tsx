@@ -1,28 +1,26 @@
 import { useState, useEffect } from 'react';
 import udhayImage from './assets/udhay.jpeg';
 
+interface Experience {
+  company: string;
+  role: string;
+  duration: string;
+  description: string;
+}
+
+interface Education {
+  institution: string;
+  degree: string;
+  duration: string;
+  grade: string;
+}
+
+type Skill = string;
+
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState('home');
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    setLoaded(true);
-    const handleScroll = () => {
-      const sections = document.querySelectorAll('section');
-      sections.forEach(section => {
-        const top = section.offsetTop;
-        const height = section.clientHeight;
-        if (window.scrollY >= top - height / 3) {
-          setActiveSection(section.id);
-        }
-      });
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Green color palette
   const colors = {
     primary: '#2E7D32',
     secondary: '#388E3C',
@@ -31,7 +29,32 @@ export default function Portfolio() {
     text: '#1B5E20'
   };
 
-  const experiences = [
+  useEffect(() => {
+    setLoaded(true);
+    const sections = document.querySelectorAll('section');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-50px 0px -50px 0px',
+      threshold: 0.2
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => observer.observe(section));
+
+    return () => {
+      sections.forEach(section => observer.unobserve(section));
+    };
+  }, []);
+
+  const experiences: Experience[] = [
     {
       company: "AskEVA",
       role: "Human Resources Generalist",
@@ -46,7 +69,7 @@ export default function Portfolio() {
     }
   ];
 
-  const educations = [
+  const educations: Education[] = [
     {
       institution: "PSNA College of Engineering and Technology",
       degree: "B.E. Mechanical Engineering",
@@ -61,7 +84,7 @@ export default function Portfolio() {
     }
   ];
 
-  const skills = [
+  const skills: Skill[] = [
     "HR Analytics", "HRIS Management", "SQL", 
     "Data Visualization", "Employee Relations",
     "Strategic Planning", "HR Consulting", "CRM"
@@ -75,31 +98,30 @@ export default function Portfolio() {
             key={section}
             href={`#${section}`}
             className={`nav-link ${activeSection === section ? 'active' : ''}`}
-            style={{ color: activeSection === section ? colors.accent : '#fff' }}
+            style={{ 
+              color: activeSection === section ? colors.accent : '#fff',
+              transition: 'all 0.3s ease'
+            }}
           >
             {section.charAt(0).toUpperCase() + section.slice(1)}
           </a>
         ))}
       </nav>
 
-      {/* Hero Section */}
-      <section id="home" className={`section hero ${loaded ? 'fade-in' : ''}`}>
+      <section id="home" className={`section ${loaded ? 'fade-in' : ''}`}>
         <div className="hero-content">
-        <img src={udhayImage} alt="Udhayakumar" className="profile-photo"/>
+          <img src={udhayImage} alt="Udhayakumar" className="profile-photo"/>
           <h1 style={{ color: colors.text }}>Udhayakumar Ravichandran</h1>
           <h2 style={{ color: colors.secondary }}>HR Analytics Enthusiast</h2>
           <p className="location" style={{ color: colors.text }}>Madurai, Tamil Nadu, India</p>
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="section slide-in-left">
+      <section id="about" className="section">
         <div className="content-box" style={{ background: '#fff' }}>
           <h2 style={{ color: colors.primary }}>About Me</h2>
           <p className="about-text" style={{ color: colors.text }}>
-            Bridging technical expertise with HR innovation, I bring a unique perspective from 
-            my background in Mechanical Engineering and Computer Science. Certified in SQL and 
-            Data Analytics, I specialize in transforming HR operations through data-driven insights.
+            Bridging technical expertise with HR innovation...
           </p>
           <div className="certifications">
             <a href="https://github.com/Udhaya7132/OIBSIP.git" className="cert-badge" style={{ background: colors.accent }}>
@@ -115,11 +137,10 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Experience Section */}
       <section id="experience" className="section slide-in-right">
         <div className="content-box" style={{ background: '#fff' }}>
           <h2 style={{ color: colors.primary }}>Professional Journey</h2>
-          {experiences.map((exp, index) => (
+          {experiences.map((exp: Experience, index: number) => (
             <div key={index} className="timeline-card" style={{ borderLeft: `4px solid ${colors.accent}` }}>
               <h3 style={{ color: colors.secondary }}>{exp.role}</h3>
               <h4 style={{ color: colors.primary }}>{exp.company}</h4>
@@ -130,11 +151,10 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Education Section */}
       <section id="education" className="section slide-in-left">
         <div className="content-box" style={{ background: '#fff' }}>
           <h2 style={{ color: colors.primary }}>Education</h2>
-          {educations.map((edu, index) => (
+          {educations.map((edu: Education, index: number) => (
             <div key={index} className="edu-card" style={{ background: colors.background }}>
               <h3 style={{ color: colors.secondary }}>{edu.institution}</h3>
               <p style={{ color: colors.primary }}>{edu.degree}</p>
@@ -145,12 +165,11 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Skills Section */}
       <section id="skills" className="section slide-in-right">
         <div className="content-box" style={{ background: '#fff' }}>
           <h2 style={{ color: colors.primary }}>Core Competencies</h2>
           <div className="skills-grid">
-            {skills.map((skill, index) => (
+            {skills.map((skill: Skill, index: number) => (
               <div 
                 key={index} 
                 className="skill-card"
@@ -166,13 +185,12 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Contact Section */}
       <section id="contact" className="section fade-in">
         <div className="content-box" style={{ background: '#fff' }}>
           <h2 style={{ color: colors.primary }}>Connect With Me</h2>
           <div className="contact-info">
             <a 
-              href="linkedin.com/in/udhayakumar7132" 
+              href="https://linkedin.com/in/udhayakumar7132" 
               className="contact-link"
               style={{ background: colors.primary }}
             >

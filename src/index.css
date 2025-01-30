@@ -9,182 +9,112 @@
 
 body {
   font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
 }
 
 .nav {
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 1.5rem;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .nav-link {
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.3s ease;
   padding: 0.5rem 1rem;
   border-radius: 8px;
+  transition: opacity 0.3s ease;
+  font-size: 0.95rem;
 }
 
 .nav-link:hover {
-  transform: translateY(-2px);
+  opacity: 0.9;
 }
 
 .active {
-  border-bottom: 3px solid;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .section {
-  padding: 4rem 2rem;
+  padding: 5rem 2rem 3rem;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.hero {
-  text-align: center;
-  position: relative;
-  padding-top: 6rem;
+  scroll-margin-top: 70px;
 }
 
 .profile-photo {
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid #2E7D32;
-  margin-bottom: 2rem;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
 
 .content-box {
   padding: 2rem;
   border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-  margin: 2rem 0;
-}
-
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.skill-card {
-  padding: 1.5rem;
-  border-radius: 12px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.skill-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.timeline-card {
-  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   margin: 1.5rem 0;
-  position: relative;
 }
 
-.edu-card {
-  padding: 1.5rem;
-  margin: 1rem 0;
-  border-radius: 12px;
-}
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  .nav {
+    padding: 0.8rem;
+    gap: 0.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+  }
 
-.cert-badge {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  margin: 0.5rem;
-  border-radius: 20px;
-  color: white;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+    white-space: nowrap;
+  }
 
-.cert-badge:hover {
-  transform: scale(1.05);
-}
+  .section {
+    padding: 4rem 1rem 2rem;
+    min-height: auto;
+    scroll-margin-top: 60px;
+  }
 
-.contact-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
+  .profile-photo {
+    width: 140px;
+    height: 140px;
+  }
 
-.contact-link {
-  padding: 1rem 2rem;
-  color: white;
-  text-decoration: none;
-  border-radius: 30px;
-  transition: all 0.3s ease;
-}
-
-.contact-link:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  .content-box {
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
 }
 
 /* Animations */
 .fade-in {
-  animation: fadeIn 1s ease-in;
-}
-
-.slide-in-left {
-  animation: slideLeft 1s ease-out;
-}
-
-.slide-in-right {
-  animation: slideRight 1s ease-out;
+  animation: fadeIn 0.6s ease-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideLeft {
-  from { transform: translateX(-100px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes slideRight {
-  from { transform: translateX(100px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-@media (max-width: 768px) {
-  .nav {
-    flex-direction: column;
-    text-align: center;
-    gap: 1rem;
-    padding: 1rem;
-  }
-
-  .profile-photo {
-    width: 150px;
-    height: 150px;
-  }
-
-  .section {
-    padding: 2rem 1rem;
-  }
-
-  .skills-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

@@ -5,5 +5,5 @@ import react from "@vitejs/plugin-react";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/UDHAY-PORTFOLIO-NEW/", // YOUR REPO NAME HERE
+  base: "/UDHAY-PORTFOLIO/", // YOUR REPO NAME HERE
 });
